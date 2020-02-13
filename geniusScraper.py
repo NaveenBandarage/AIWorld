@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
+# https://towardsdatascience.com/generating-text-using-a-recurrent-neural-network-1c3bfee27a5e - site for creating the neural network. 
 GENIUS_API_KEY = 'y_ffeHQMG4swK_vGBokmlwDGXDz6uYi4wB_-ECBK0lj7AdJoQGkB3LgSE5foHy35'
 
 base_url = 'http://api.genius.com'
