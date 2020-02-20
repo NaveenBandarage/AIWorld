@@ -1,6 +1,5 @@
 from __future__ import print_function
 from keras.callbacks import LambdaCallback
-from tensorflow.python import keras
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
@@ -66,7 +65,7 @@ def on_epoch_end(epoch, _):
     print('----- Generating text after Epoch: %d' % epoch)
 
     start_index = random.randint(0, len(text) - maxlen - 1)
-    for diversity in [0.2, 0.5, 1.0, 1.2]:
+    for diversity in [0.2, 0.5]:
         print('----- diversity:', diversity)
 
         generated = ''
@@ -90,9 +89,39 @@ def on_epoch_end(epoch, _):
             sys.stdout.flush()
         print()
 
+def generate_output():
+    generated = ''
+    usr_input = input("Write the beginning of your poem, the Drake machine will complete it. Your input is: ")
+
+    sentence = ('{0:0>' + str(Tx) + '}').format(usr_input).lower()
+    generated += usr_input 
+
+    sys.stdout.write("\n\nHere is your poem: \n\n") 
+    sys.stdout.write(usr_input)
+    for i in range(400):
+
+        x_pred = np.zeros((1, Tx, len(chars)))
+
+        for t, char in enumerate(sentence):
+            if char != '0':
+                x_pred[0, t, char_indices[char]] = 1.
+
+        preds = model.predict(x_pred, verbose=0)[0]
+        next_index = sample(preds, temperature = 0.2)
+        next_char = indices_char[next_index]
+
+        generated += next_char
+        sentence = sentence[1:] + next_char
+
+        sys.stdout.write(next_char)
+        sys.stdout.flush()
+
+        if next_char == '\n':
+            continue
+
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
 model.fit(x, y,
           batch_size=128,
-          epochs=60,
+          epochs=15,
           callbacks=[print_callback])
