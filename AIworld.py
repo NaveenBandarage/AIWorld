@@ -125,3 +125,6 @@ model.fit(x, y,
           batch_size=128,
           epochs=15,
           callbacks=[print_callback])
+
+Tx = 40
+generate_output()
