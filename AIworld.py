@@ -20,6 +20,8 @@ print('total chars:', len(chars))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
 
+
+#source ./venv/bin/activate - THIS IS THE COMMAND TO ACTIVATE VIRTUAL ENVIRONMETN
 # cut the text in semi-redundant sequences of maxlen characters
 maxlen = 40
 step = 3
@@ -91,8 +93,9 @@ def on_epoch_end(epoch, _):
 
 def generate_output():
     generated = ''
-    usr_input = input("Write the beginning of your poem, the Drake machine will complete it. Your input is: ")
+    
 
+    usr_input = input("Write the beginning of your poem, the Drake machine will complete it. Your input is: ")
     sentence = ('{0:0>' + str(Tx) + '}').format(usr_input).lower()
     generated += usr_input 
 
@@ -123,7 +126,7 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
 model.fit(x, y,
           batch_size=128,
-          epochs=15,
+          epochs=2,
           callbacks=[print_callback])
 
 Tx = 40
