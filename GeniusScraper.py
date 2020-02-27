@@ -58,8 +58,8 @@ def get_song_id(artist_id):
             current_page += 1
             print("Page {} finished scraping".format(current_page))
             # If you don't wanna wait too long to scrape, un-comment this
-            if current_page == 2:
-                break
+            # if current_page == 2:
+            #     break
 
         else:
             # If page_songs is empty, quit

@@ -13,10 +13,10 @@ import io
 path = 'newfile.txt'
 with io.open(path, encoding='utf-8') as f:
     text = f.read().lower()
-print('corpus length:', len(text))
+print('Length of text:', len(text))
 
 chars = sorted(list(set(text)))
-print('total chars:', len(chars))
+print('Total number of chars:', len(chars))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
 
@@ -95,11 +95,11 @@ def generate_output():
     generated = ''
     
 
-    usr_input = input("Write the beginning of your poem, the Drake machine will complete it. Your input is: ")
+    usr_input = input("Write your Travis Scott Lyrics Here: ")
     sentence = ('{0:0>' + str(Tx) + '}').format(usr_input).lower()
     generated += usr_input 
 
-    sys.stdout.write("\n\nHere is your poem: \n\n") 
+    sys.stdout.write("\n\nHere is your verse: \n\n") 
     sys.stdout.write(usr_input)
     for i in range(400):
 
@@ -126,8 +126,12 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
 model.fit(x, y,
           batch_size=128,
-          epochs=2,
+          epochs=1,
           callbacks=[print_callback])
 
 Tx = 40
-generate_output()
+while True:
+    userInput = input('\nDo you want to keep generating (Y/N): \n')
+    if (userInput == 'N'):
+        break
+    generate_output()
