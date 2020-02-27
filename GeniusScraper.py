@@ -7,7 +7,7 @@ import requests
 
 #Genius API
 base = "https://api.genius.com"
-client_access_token = "y_ffeHQMG4swK_vGBokmlwDGXDz6uYi4wB_-ECBK0lj7AdJoQGkB3LgSE5foHy35"
+client_access_token = "y_ffeHQMG4swK_vGBokmlwDGXDz6uYi4wB_-ECBK0lj7AdJoQGkB3LgSE5foHy35" #this is needed possibly your own
 
 def joinLyrics(song_id):
     url = "songs/{}".format(song_id)
@@ -20,7 +20,6 @@ def joinLyrics(song_id):
 
 
 def retrieve_lyrics(song_id):
-    '''Retrieves lyrics from html page.'''
     path = joinLyrics(song_id)
 
     URL = "http://genius.com" + path
@@ -33,14 +32,13 @@ def retrieve_lyrics(song_id):
 
 
 def getSongId(artist_id):
-    '''Get all the song id from an artist.'''
-    current_page = 1
+    pageCurrent = 1
     next_page = True
     songs = [] # to store final song ids
 
     while next_page:
         path = "artists/{}/songs/".format(artist_id)
-        params = {'page': current_page} # the current page
+        params = {'page': pageCurrent} # the current page
         data = get_json(path=path, params=params) # get json of songs
 
         page_songs = data['response']['songs']
@@ -48,14 +46,14 @@ def getSongId(artist_id):
             # Add all the songs of current page
             songs += page_songs
             # Increment current_page value for next loop
-            current_page += 1
-            print("Page {} finished scraping".format(current_page))
+            pageCurrent += 1
+            print("Page {} finished scraping".format(pageCurrent))
 
         else:
             # If page_songs is empty, quit
             next_page = False
 
-    print("Song id were scraped from {} pages".format(current_page))
+    print("Song id were scraped from {} pages".format(pageCurrent))
 
     # Get all the song ids, excluding not-primary-artist songs.
     songs = [song["id"] for song in songs
@@ -111,7 +109,6 @@ def get_json(path, params=None, headers=None):
 
 
 def search(artist_name):
-    '''Search Genius API via artist name.'''
     search = "search?q="
     query = base + search + urllib.parse.quote(artist_name)
     request = urllib.request.Request(query)
@@ -141,28 +138,16 @@ def search_artist(artist_id):
     return data["followers_count"] # number of followers
 
 def main():
-    # Example searches
-    term = 'Travis Scott'
     artist_id = 20185
 
     # Grabs all song id's from artist
-    songs_ids = getSongId(20185)
-
-    # Get meta information about songs
-    #song_list = get_song_information(songs_ids)
+    songs_ids = getSongId(artist_id)
 
     # Scrape lyrics from the songs
     song_lyrics = [retrieve_lyrics(song_id) for song_id in songs_ids]
     file1 = open("executeInput.txt","w")
     for lyrics in song_lyrics:
         file1.write((lyrics))
-
-    # Gets information regarding the artist themself
-    # followers = search_artist(artist_id)
-
-    # Shows some random songs from arist and lyrics
-    #search(term)
-
 
 if __name__ == "__main__":
     main()
