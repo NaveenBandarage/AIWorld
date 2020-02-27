@@ -22,27 +22,33 @@ indices_char = dict((i, c) for i, c in enumerate(chars))
 
 
 #source ./venv/bin/activate - THIS IS THE COMMAND TO ACTIVATE VIRTUAL ENVIRONMETN
-# cut the text in semi-redundant sequences of maxlen characters
+# divides the text into sequences of 40 characters. 
+
 maxlen = 40
 step = 3
-sentences = []
-next_chars = []
+sentencesArray = []
+nextChars = []
 for i in range(0, len(text) - maxlen, step):
-    sentences.append(text[i: i + maxlen])
-    next_chars.append(text[i + maxlen])
-print('nb sequences:', len(sentences))
+    sentencesArray.append(text[i: i + maxlen])
+    nextChars.append(text[i + maxlen])
+print('Sequences:', len(sentencesArray))
 
-print('Vectorization...')
-x = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
-y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
-for i, sentence in enumerate(sentences):
+print('Now turning into vectors')
+#Getting the x 
+x = np.zeros((len(sentencesArray), maxlen, len(chars)), dtype=np.bool)
+#Getting the y
+y = np.zeros((len(sentencesArray), len(chars)), dtype=np.bool)
+
+#Iterating through the sentences array 
+for i, sentence in enumerate(sentencesArray):
     for t, char in enumerate(sentence):
         x[i, t, char_indices[char]] = 1
-    y[i, char_indices[next_chars[i]]] = 1
+    y[i, char_indices[nextChars[i]]] = 1
 
 
-# build the model: a single LSTM
+# Creating a model from single lstm. 
 print('Build model...')
+#Taken from tensorflow and github
 model = Sequential()
 model.add(LSTM(128, input_shape=(maxlen, len(chars))))
 model.add(Dense(len(chars), activation='softmax'))
@@ -52,7 +58,8 @@ model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
 
 def sample(preds, temperature=1.0):
-    # helper function to sample an index from a probability array
+    
+    # This helps with sampling. 
     preds = np.asarray(preds).astype('float64')
     preds = np.log(preds) / temperature
     exp_preds = np.exp(preds)
@@ -126,12 +133,13 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
 model.fit(x, y,
           batch_size=128,
-          epochs=1,
+          epochs=20,
           callbacks=[print_callback])
 
 Tx = 40
 while True:
     userInput = input('\nDo you want to keep generating (Y/N): \n')
     if (userInput == 'N'):
+        print("Travis scott generator closing down.")
         break
     generate_output()

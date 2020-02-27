@@ -1,20 +1,15 @@
-import requests
 import urllib.request
 import urllib.parse
 import json
 from bs4 import BeautifulSoup
+import requests
 
 
-######################################################################
-########### Main file to run everything #############################
-#####################################################################
-
-# Constants
+#Genius API
 base = "https://api.genius.com"
 client_access_token = "y_ffeHQMG4swK_vGBokmlwDGXDz6uYi4wB_-ECBK0lj7AdJoQGkB3LgSE5foHy35"
 
-def connect_lyrics(song_id):
-    '''Constructs the path of song lyrics.'''
+def joinLyrics(song_id):
     url = "songs/{}".format(song_id)
     data = get_json(url)
 
@@ -26,20 +21,18 @@ def connect_lyrics(song_id):
 
 def retrieve_lyrics(song_id):
     '''Retrieves lyrics from html page.'''
-    path = connect_lyrics(song_id)
+    path = joinLyrics(song_id)
 
     URL = "http://genius.com" + path
     page = requests.get(URL)
 
-    # Extract the page's HTML as a string
+    # Get the page as html and then scrap to find the lyrics and return them
     html = BeautifulSoup(page.text, "html.parser")
-
-    # Scrape the song lyrics from the HTML
     lyrics = html.find("div", class_="lyrics").get_text()
     return lyrics
 
 
-def get_song_id(artist_id):
+def getSongId(artist_id):
     '''Get all the song id from an artist.'''
     current_page = 1
     next_page = True
@@ -57,9 +50,6 @@ def get_song_id(artist_id):
             # Increment current_page value for next loop
             current_page += 1
             print("Page {} finished scraping".format(current_page))
-            # If you don't wanna wait too long to scrape, un-comment this
-            # if current_page == 2:
-            #     break
 
         else:
             # If page_songs is empty, quit
@@ -156,7 +146,7 @@ def main():
     artist_id = 20185
 
     # Grabs all song id's from artist
-    songs_ids = get_song_id(20185)
+    songs_ids = getSongId(20185)
 
     # Get meta information about songs
     #song_list = get_song_information(songs_ids)
