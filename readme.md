@@ -1,6 +1,9 @@
 # Travis Scott AI
 
 This repo is just a simple AI project that I made to create Travis Scott lyrics. It works in two-fold and can be used for essentially any artist.
+![Travis Scott](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+
+
 
 ## Installation
 
