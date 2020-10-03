@@ -2,7 +2,7 @@
 
 This repo is just a simple AI project that I made to create Travis Scott lyrics. It works in two-fold and can be used for essentially any artist.
 <div align="center">
-  <img src="https://media.giphy.com/media/dZ9q1ymozCbfDNk75C/giphy.gif" width="300" height="300"/>
+  <img src="https://media.giphy.com/media/dZ9q1ymozCbfDNk75C/giphy.gif"/>
 
 </div>
 
