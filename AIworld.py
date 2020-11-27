@@ -133,7 +133,7 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
 model.fit(x, y,
           batch_size=128,
-          epochs=20,
+          epochs=5,
           callbacks=[print_callback])
 
 Tx = 40
