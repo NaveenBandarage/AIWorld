@@ -19,6 +19,7 @@ def joinLyrics(song_id):
     return path
 
 
+
 def retrieve_lyrics(song_id):
     path = joinLyrics(song_id)
 
@@ -26,8 +27,13 @@ def retrieve_lyrics(song_id):
     page = requests.get(URL)
 
     # Get the page as html and then scrap to find the lyrics and return them
+    # print(page.text)
     html = BeautifulSoup(page.text, "html.parser")
-    lyrics = html.find("div", class_="lyrics").get_text()
+    # lyrics = html.find("div", class_="lyrics").get_text()
+    #fixed issue
+    lyrics = html.select_one('div[class^="Lyrics__Container"], .lyrics').get_text(
+    strip=True, separator='\n')
+
     return lyrics
 
 
