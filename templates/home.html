@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='../static/css/main.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+
+<body>
+
+
+        <div class="bg-pink-200 md:bg-purple-200 lg:bg-red-500 min-h-screen">
+<h1 class="items-center font-black text-6xl text-center pt-44">
+    Rap AI Generator
+</h1>
+            <div class="text-center">
+                <div class="pt-4"> 
+                    <form action="http://localhost:5000/" method="post">
+                    <input type="text"
+                        class="h-14 w-96 pr-8 pl-5 rounded z-0 focus:shadow focus:outline-none"
+                        placeholder="Search" name="search">
+                    <div class=""> <button type="submit"><i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i></button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="items-center text-center content-center px-14 md:px-48 lg:24">
+
+            <div class="bg-white py-16"> 
+            <p class="hidden">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde quod aliquid eos dolores velit itaque quasi saepe magnam ipsum dolore! Quibusdam ipsam iusto excepturi iure molestiae hic aspernatur, accusamus quis.
+            </p>
+            {% if result : %}
+            <p class="font-bold">{{ result }}</p>
+            {% endif %}
+            </div>
+            </div>
+        </div>
+
+        <!-- <div class="search-container">
+            <form action="http://localhost:5000/" method="post">
+                <input type="text" placeholder="Search" name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div> -->
+    </div>
+<!--    
+    <div style="padding-left:16px">
+        <h2> Rap AI Generator </h2>
+    </div>
+<div>
+    <textarea
+    class="w-full h-16 px-3 py-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline">
+
+</textarea> -->
+</div>
+<script src="app.js"></script>
+
+</body>
+
+</html>
